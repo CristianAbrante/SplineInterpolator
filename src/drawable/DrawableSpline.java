@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 import spline.Spline;
@@ -23,7 +24,9 @@ import spline.Spline;
  */
 public class DrawableSpline {
   private Spline  spline;
-  private Color   color;
+  private Color   splineColor;
+  private Color   pointsColor = Color.RED;
+  private int     pointRadius = 5;
   private final Stroke STROKE = new BasicStroke(3f);
   private Path2D  splineLine;
   
@@ -33,9 +36,9 @@ public class DrawableSpline {
    * @param spline
    * @param color
    */
-  public DrawableSpline(Spline spline, Color color) {
+  public DrawableSpline(Spline spline, Color splineColor) {
     setSpline(spline);
-    setColor(color);
+    setSplineColor(splineColor);
   }
   
   /**
@@ -66,21 +69,56 @@ public class DrawableSpline {
   }
   
   /**
-   * @return the color
+   * @return the splineColor
    */
-  public Color getColor() {
-    return color;
+  public Color getSplineColor() {
+    return splineColor;
   }
-  
+
   /**
-   * @param color the color to set
+   * @param splineColor the splineColor to set
    */
-  public void setColor(Color color) {
-    if (color != null) {
-      this.color = color;      
+  public void setSplineColor(Color splineColor) {
+    if (splineColor != null) {
+      this.splineColor = splineColor;      
     } else {
-      throw new NullPointerException("color can't be null.");
+      throw new NullPointerException();
     }
+  }
+
+  /**
+   * @return the pointsColor
+   */
+  public Color getPointsColor() {
+    return pointsColor;
+  }
+
+  /**
+   * @param pointsColor the pointsColor to set
+   */
+  public void setPointsColor(Color pointsColor) {
+    if (pointsColor != null) {
+      this.pointsColor = pointsColor;      
+    } else {
+      throw new NullPointerException();
+    }
+  }
+
+  /**
+   * @return the pointRadius
+   */
+  public int getPointRadius() {
+    return pointRadius;
+  }
+
+  /**
+   * @param pointRadius the pointRadius to set
+   */
+  public void setPointRadius(int pointRadius) {
+    if (pointRadius <= 0) {
+      throw new IllegalArgumentException();
+    }
+    this.pointRadius = pointRadius;
   }
   
   /**
@@ -96,10 +134,18 @@ public class DrawableSpline {
    * @param g
    */
   public void draw(Graphics2D g) {
-    g.setColor(getColor());
+    g.setColor(getSplineColor());
     g.setStroke(STROKE);
     setLine();
     g.draw(splineLine);
+    
+    g.setColor(getPointsColor());
+    for (Point2D point : getSpline().getPoints()) {
+      double x = point.getX();
+      double y = point.getY();
+      g.fillOval((int) (x - getPointRadius()), (int) (y - getPointRadius()), 2 * getPointRadius(), 2 * getPointRadius());
+    }
+    
     g.setStroke(new BasicStroke());
     g.setColor(Color.BLACK);
   }
@@ -120,7 +166,7 @@ public class DrawableSpline {
    * to be repainted.
    */
   private void setLine() {
-    double increment = 1.0;
+    double increment = 0.1;
     splineLine = new Path2D.Double();
     double firstX = getSpline().getFirstPoint().getX();
     double lastX = getSpline().getLastPoint().getX();

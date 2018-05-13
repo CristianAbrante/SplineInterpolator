@@ -45,7 +45,9 @@ public class CubicPolynomialInterpolator extends Interpolator {
   public ArrayList<Function> interpolateFuntionsFrom(ArrayList<Point2D> points) 
       throws NullPointerException, IllegalArgumentException {
     setPoints(points);
-    //computeAlpha();
+    if (getPoints().size() < 2) {
+      throw new IllegalArgumentException("points size must be greater than 2");
+    }
     
     // Compute the value of the array a (constant of polynomial)
     this.a = new ArrayList<Double>();

@@ -29,15 +29,6 @@ public abstract class Interpolator {
    * @param points  the points that defines the areas to interpolate.
    * @return        the interpolated functions.
    * @throws NullPointerException if points are null.
-   */
-  /**
-   * Method that interpolates n-1 
-   * functions from a given set 
-   * of n points.
-   * 
-   * @param points  the points that defines the areas to interpolate.
-   * @return        the interpolated functions.
-   * @throws NullPointerException if points are null.
    * @throws IllegalArgumentException If points are not in the correct range.
    */
   public abstract ArrayList<Function> interpolateFuntionsFrom(ArrayList<Point2D> points) 

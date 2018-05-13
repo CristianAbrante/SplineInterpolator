@@ -128,22 +128,29 @@ public class CubicPolynomialInterpolator extends Interpolator {
   /**
    * @return the points
    */
-  public ArrayList<Point2D> getPoints() {
+  private ArrayList<Point2D> getPoints() {
     return points;
   }
-
+  
   /**
    * @param points the points to set
    */
-  public void setPoints(ArrayList<Point2D> points) {
+  private void setPoints(ArrayList<Point2D> points) {
     if (points == null) {
       throw new NullPointerException("points can't be null");
     }
     if (!arePointsInRange(points)) {
       throw new IllegalArgumentException("points are not in the correct range");
     }
-    
     this.points = points;
+  }
+  
+  private Point2D getPoint(int index) {
+    if (index >= 0 && index < getPoints().size()) {
+      return getPoints().get(index);
+    } else {
+      throw new IndexOutOfBoundsException("point index is greater than size");
+    }
   }
   
   /**
@@ -154,11 +161,7 @@ public class CubicPolynomialInterpolator extends Interpolator {
    * @return  the x value of the point at index.
    */
   private double getXAt(int index) {
-    if (index >= 0 && index < getPoints().size()) {
-      return getPoints().get(index).getX();
-    } else {
-      throw new IndexOutOfBoundsException("point index is greater than size");
-    }
+    return getPoint(index).getX();
   }
   
   /**
@@ -169,11 +172,7 @@ public class CubicPolynomialInterpolator extends Interpolator {
    * @return the y value of the point at index
    */
   private double getYAt(int index) {
-    if (index >= 0 && index < getPoints().size()) {
-      return getPoints().get(index).getY();
-    } else {
-      throw new IndexOutOfBoundsException("point index is greater than size");
-    }
+    return getPoint(index).getY();
   }
   
   /**
@@ -195,6 +194,9 @@ public class CubicPolynomialInterpolator extends Interpolator {
     for (int i = 0; i < points.size() - 1; ++i) {
       Point2D p1 = points.get(i);
       Point2D p2 = points.get(i + 1);
+      if (p1 == null || p2 == null) {
+        throw new NullPointerException("any point can't be null.");
+      }
       if (Double.compare(p1.getX(), p2.getX()) >= 0) {
         return false;
       }

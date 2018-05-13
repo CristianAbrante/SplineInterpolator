@@ -60,6 +60,40 @@ public class Spline extends Function {
   }
   
   /**
+   * Gets the point at specified indes
+   * @param index of the point
+   * @return the point at index
+   */
+  public Point2D getPoint(int index) {
+    if (index >= 0 && index < getPoints().size()) {
+      return getPoints().get(index);
+    } else {
+      throw new IndexOutOfBoundsException("point index is greater than size");
+    }
+  }
+  
+  /**
+   * @return first point of the spline.
+   */
+  public Point2D getFirstPoint() {
+    return getPoint(0);
+  }
+  
+  /**
+   * @return last point of the spline.
+   */
+  public Point2D getLastPoint() {
+    return getPoint(getNumberOfPoints() - 1);
+  }
+  
+  /**
+   * @return the number of points of the interpolation
+   */
+  public int getNumberOfPoints() {
+    return getPoints().size();
+  }
+  
+  /**
    * @return the interpolator
    */
   public Interpolator getInterpolator() {
@@ -119,19 +153,6 @@ public class Spline extends Function {
   }
   
   /**
-   * Gets the point at specified indes
-   * @param index of the point
-   * @return the point at index
-   */
-  private Point2D getPoint(int index) {
-    if (index >= 0 && index < getPoints().size()) {
-      return getPoints().get(index);
-    } else {
-      throw new IndexOutOfBoundsException("point index is greater than size");
-    }
-  }
-  
-  /**
    * Get the x value of the point at
    * index.
    * 
@@ -151,13 +172,6 @@ public class Spline extends Function {
    */
   private double getYAt(int index) {
     return getPoint(index).getY();
-  }
-  
-  /**
-   * @return the number of points of the interpolation
-   */
-  private int getNumberOfPoints() {
-    return getPoints().size();
   }
   
   /**

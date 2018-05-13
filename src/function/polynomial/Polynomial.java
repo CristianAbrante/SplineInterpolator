@@ -101,5 +101,4 @@ public class Polynomial extends Function {
     }
     return result;
   }
-
 }

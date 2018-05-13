@@ -61,11 +61,7 @@ public class DrawableSpline {
    * @param spline the spline to set
    */
   public void setSpline(Spline spline) {
-    if (spline != null) {
-      this.spline = spline;      
-    } else {
-      throw new NullPointerException("spline can't be null.");
-    }
+    this.spline = spline;
   }
   
   /**
@@ -134,20 +130,22 @@ public class DrawableSpline {
    * @param g
    */
   public void draw(Graphics2D g) {
-    g.setColor(getSplineColor());
-    g.setStroke(STROKE);
-    setLine();
-    g.draw(splineLine);
-    
-    g.setColor(getPointsColor());
-    for (Point2D point : getSpline().getPoints()) {
-      double x = point.getX();
-      double y = point.getY();
-      g.fillOval((int) (x - getPointRadius()), (int) (y - getPointRadius()), 2 * getPointRadius(), 2 * getPointRadius());
+    if (getSpline() != null) {
+      g.setColor(getSplineColor());
+      g.setStroke(STROKE);
+      setLine();
+      g.draw(splineLine);
+      
+      g.setColor(getPointsColor());
+      for (Point2D point : getSpline().getPoints()) {
+        double x = point.getX();
+        double y = point.getY();
+        g.fillOval((int) (x - getPointRadius()), (int) (y - getPointRadius()), 2 * getPointRadius(), 2 * getPointRadius());
+      }
+      
+      g.setStroke(new BasicStroke());
+      g.setColor(Color.BLACK);      
     }
-    
-    g.setStroke(new BasicStroke());
-    g.setColor(Color.BLACK);
   }
   
   // PRIVATE METHODS

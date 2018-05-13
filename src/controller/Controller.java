@@ -3,6 +3,8 @@
  */
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -22,13 +24,13 @@ import view.VisualPanel;
  * @date 		13/05/2018
  * @version 1.0.0
  */
-public class Controller {
+public class Controller implements ActionListener {
   
-  private final int WIDTH = 500;
-  private final int HEIGHT = 500;
+  private final int WIDTH = 1000;
+  private final int HEIGHT = 700;
   private final double POINT_RADIUS = 5;
   
-  private int numberOfPoints = 6;
+  private int numberOfPoints = 8;
   
   private PointsManager        manager;
   private Interpolator        interpolator;
@@ -41,15 +43,44 @@ public class Controller {
   
   public Controller() {
     manager = new PointsManager();
-    manager.setRandomPoints(numberOfPoints, POINT_RADIUS, 0, WIDTH, 0, HEIGHT);
     interpolator = new CubicPolynomialInterpolator();
-    spline = new Spline(interpolator, manager.getPoints());
     drawableSpline = new DrawableSpline(spline);
     drawableSpline.setPointRadius((int) POINT_RADIUS);
     
     visualPanel = new VisualPanel(this, WIDTH, HEIGHT);
     visualPanel.setSpline(drawableSpline);
-    settingsPanel = new SettingsPanel();
+    settingsPanel = new SettingsPanel(this);
     frame = new MainFrame("Spline Interpolator", settingsPanel, visualPanel);
+  }
+
+  /** (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    switch(e.getActionCommand()) {
+    case SettingsPanel.GENERATE: {
+      try {
+        numberOfPoints = settingsPanel.getNumberOfPoints();
+        if (numberOfPoints >= 2) {
+          manager.setRandomPoints(numberOfPoints, POINT_RADIUS, 0, WIDTH, 0, HEIGHT);
+          spline = new Spline(interpolator, manager.getPoints());
+          drawableSpline.setSpline(spline);
+          frame.repaint();
+        }        
+      }
+      catch(NumberFormatException nfe) {
+        ;
+      }
+      break;
+    }
+    case SettingsPanel.CLEAR: {
+      if (spline != null) {
+        manager.clear();
+        drawableSpline.setSpline(null);
+        frame.repaint();
+      }
+    }
+    }
   }
 }

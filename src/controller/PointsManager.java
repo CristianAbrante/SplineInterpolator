@@ -157,6 +157,10 @@ public class PointsManager {
     return -1;
   }
   
+  public void clear() {
+    getPoints().clear();
+  }
+  
   /**
    * Returns the euclidean distance of two points.
    * 

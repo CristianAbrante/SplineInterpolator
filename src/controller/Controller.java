@@ -29,17 +29,27 @@ import view.VisualPanel;
  * @version 1.0.0
  */
 public class Controller implements ActionListener, MouseListener, MouseMotionListener {
-  
+  /**
+   * Constants defined for width height and
+   * points radius respectively.
+   */
   private final int WIDTH = 1000;
   private final int HEIGHT = 700;
-  private final double POINT_RADIUS = 5;
+  private final double POINT_RADIUS = 10;
   
   private int numberOfPoints = 8;
   
+  /**
+   * Manager of the points, interpolator
+   * and spline.
+   */
   private PointsManager        manager;
   private Interpolator        interpolator;
   private Spline              spline;
   
+  /**
+   * Panels and visual elements
+   */
   private DrawableSpline      drawableSpline;
   private VisualPanel         visualPanel;
   private SettingsPanel       settingsPanel;

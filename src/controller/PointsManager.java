@@ -7,8 +7,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import sun.security.util.ECUtil;
-
 /**
  * <h2>PointsManager</h2>
  * This class manage a sorted

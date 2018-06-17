@@ -4,7 +4,7 @@ The Spline is a mathematical piecewise function. The intervals where the functio
 
 In this project I implemented a graphical interface for the spline.
 
-![Spline Interpolator User Interface][images/spline.png]
+![Spline Interpolator User Interface][https://github.com/CristianAbrante/SplineInterpolator/blob/master/images/spline.png]
 
 ## Getting Started
 
